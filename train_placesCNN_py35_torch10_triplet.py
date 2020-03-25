@@ -28,21 +28,47 @@ model_names = sorted(name for name in models.__dict__
                      if name.islower() and not name.startswith("__")
                      and callable(models.__dict__[name]))
 
+# 存放数据的根目录
 DATA_PATH = '/home/zihao.chen/data'
+
+# 数据集的目录，它内部应该满足pytorch Dataset的标准，形如 data/class1/*.jpg data/class2/*.jpg data/class3/*.jpg
 data_path = os.path.join(DATA_PATH, 'HBQ/Cloud_357/class_label_1_work_new')
+
+# 最优迭代的索引，初始为0
 best_prec1 = 0
+
+# 一个特立独行的名字，用来区分每次训练的模型
 arch = 'resnet50_cloud_A29_336_lr00001_triplet_0'
+
+# 是否使用现有的模型,如果使用的话，注意你的dataloader是否能够正确的投喂数据
 # resume = 'resnet50_cloud_a29_best.pth.tar'
 resume = None
+
+# 模型的分类类别数量
 num_classes = 4
+
+# 每批次训练的样本量，也会影响dataloader的缓冲大小
 batch_size = 10
+
+# dataloader 使用的线程数量，之所以没用进程的方式，是因为主要是大多数数据装载的时间主要集中在IO阻塞上，
+# 数据的预处理本身占用的时间其实很快。而且进程间通讯和调度没有线程那么方便。
 data_loader_workers = 8
+
+# 是否是用来执行评价过程的,看代码，很简单
 evaluate = False
+
+# 调参的参数
 lr = 0.0001
 momentum = 0.9
 weight_decay = 1e-4
+
+# 多少个batch打印一次结果
 print_freq = 30
+
+# 迭代开始的索引
 start_epoch = 0
+
+# 总数据集迭代次数
 epochs = 40
 
 
@@ -140,8 +166,6 @@ def main():
     #     batch_size=batch_size, shuffle=True,
     #     num_workers=data_loader_workers, pin_memory=True)
 
-
-
     val_loader = torch.utils.data.DataLoader(
         datasets.ImageFolder(valdir, transforms.Compose([
             transforms.Resize(384),
@@ -159,7 +183,8 @@ def main():
     #                             momentum=momentum,
     #                             weight_decay=weight_decay)
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), eps=1e-08, weight_decay=0,
+                                 amsgrad=False)
     # optimizer = torch.optim.SGD([
     #             {'params': model.features.parameters()},
     #             {'params': model.classifier.parameters(), 'lr': lr}
@@ -183,7 +208,7 @@ def main():
                                       normalize,
                                   ]), shuffle=True)
         # train for one epoch
-        train(train_loader, model, criterion_tml,criterion_cel, optimizer, epoch)
+        train(train_loader, model, criterion_tml, criterion_cel, optimizer, epoch)
 
         # evaluate on validation set
         prec1 = validate(val_loader, model, criterion_cel)
@@ -199,7 +224,7 @@ def main():
         }, is_best, epoch, arch.lower())
 
 
-def train(train_loader, model, criterion1,criterion2, optimizer, epoch):
+def train(train_loader, model, criterion1, criterion2, optimizer, epoch):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
@@ -214,7 +239,6 @@ def train(train_loader, model, criterion1,criterion2, optimizer, epoch):
         input, target = sample
         # measure data loading time
         data_time.update(time.time() - end)
-
 
         temp_x = [torch.stack(input[i], dim=0) for i in range(len(input))]
         temp_y = [torch.stack(target[i], dim=0) for i in range(len(target))]
@@ -265,7 +289,7 @@ def train(train_loader, model, criterion1,criterion2, optimizer, epoch):
                   'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                   'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t'
                   'Prec@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
-                epoch, i, train_loader_length//batch_size, batch_time=batch_time,
+                epoch, i, train_loader_length // batch_size, batch_time=batch_time,
                 data_time=data_time, loss=losses, top1=top1, top5=top5))
 
 

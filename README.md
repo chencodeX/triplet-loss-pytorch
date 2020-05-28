@@ -1,4 +1,4 @@
-# triplt loss pytorth
+# triplet loss pytorth
 
 本项目使用了pytorch本身自带的TripletMarginLoss 来实现三元组损失。同时自己设计了一个高度兼容的组织三元组数据的Dataloader。
 

@@ -237,6 +237,8 @@ def train(train_loader, model, criterion1, criterion2, optimizer, epoch):
     end = time.time()
     for i, sample in enumerate(train_loader):
         input, target = sample
+
+        # debug Issues #1
         temp_batch_size = len(input)
         # measure data loading time
         data_time.update(time.time() - end)

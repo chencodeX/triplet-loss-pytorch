@@ -275,8 +275,8 @@ if __name__ == '__main__':
         normalize,
     ])
     count = 0
-    batch_size = 20
-    train_loader = DataLoader(root_path='/home/meteo/zihao.chen/data/HBQ/Cloud_357/class_label_1_work_new/train',
+    batch_size = 50
+    train_loader = DataLoader(root_path='/home/meteo/zihao.chen/data/HBQ/Cloud_357/class_label_B4/3_work/train',
                               batch_size=batch_size, num_workers=8, transforms=transform)
     epochs = 40
     for epoch in range(0, epochs):
@@ -296,8 +296,8 @@ if __name__ == '__main__':
             sample_target = torch.cat(new_y, 0)
 
             target = sample_target.cuda(async=True)
-            input_var = torch.autograd.Variable(sample_input.cuda())
-            target_var = torch.autograd.Variable(target.cuda())
+            input_var = torch.autograd.Variable(sample_input)
+            target_var = torch.autograd.Variable(target)
             # compute output
             anchor = input_var[:batch_size]
             positive = input_var[batch_size:(batch_size * 2)]

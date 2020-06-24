@@ -63,7 +63,7 @@ momentum = 0.9
 weight_decay = 1e-4
 
 # 多少个batch打印一次结果
-print_freq = 30
+print_freq = 10
 
 # 迭代开始的索引
 start_epoch = 0

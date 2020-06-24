@@ -237,6 +237,7 @@ def train(train_loader, model, criterion1, criterion2, optimizer, epoch):
     end = time.time()
     for i, sample in enumerate(train_loader):
         input, target = sample
+        temp_batch_size = len(input)
         # measure data loading time
         data_time.update(time.time() - end)
 
@@ -258,9 +259,9 @@ def train(train_loader, model, criterion1, criterion2, optimizer, epoch):
         target_var = torch.autograd.Variable(target.cuda())
         # compute output
         output = model(input_var)
-        anchor = output[:batch_size]
-        positive = output[batch_size:(batch_size * 2)]
-        negative = output[-batch_size:]
+        anchor = output[:temp_batch_size]
+        positive = output[temp_batch_size:(temp_batch_size * 2)]
+        negative = output[-temp_batch_size:]
 
         loss1 = criterion1(anchor, positive, negative)
         output = model.classifier(output)

@@ -310,8 +310,8 @@ if __name__ == '__main__':
                 print ('target len :%s' % len(target))
                 print ('new_x len :%s' % len(new_x))
                 print ('new_y len :%s' % len(new_y))
-                print ('sample_input size :%s' % sample_input.size())
-                print ('sample_target size :%s' % sample_target.size())
+                print ('sample_input size :%s' % (sample_input.size()))
+                print ('sample_target size :%s' % (sample_target.size()))
             # s_t = time.time()
             # x = []
             # for i in range(len(input)):

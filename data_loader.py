@@ -286,6 +286,7 @@ if __name__ == '__main__':
                 print ('load data %d' % (i))
                 # print (type(input))
                 input, target = sample
+                temp_batch = len(input)
                 temp_x = [torch.stack(input[i], dim=0) for i in range(len(input))]
                 temp_y = [torch.stack(target[i], dim=0) for i in range(len(target))]
                 new_x = torch.stack(temp_x, dim=0)
@@ -300,10 +301,10 @@ if __name__ == '__main__':
                 input_var = torch.autograd.Variable(sample_input)
                 target_var = torch.autograd.Variable(target)
                 # compute output
-                anchor = input_var[:batch_size]
-                positive = input_var[batch_size:(batch_size * 2)]
-                negative = input_var[-batch_size:]
-                assert anchor.size() != positive.size()
+                anchor = input_var[:temp_batch]
+                positive = input_var[temp_batch:(temp_batch * 2)]
+                negative = input_var[-temp_batch:]
+                assert anchor.size() == positive.size()
                 assert anchor.size() == negative.size()
             except Exception as e:
                 print ('input len :%s' % len(input))

@@ -275,38 +275,60 @@ if __name__ == '__main__':
         normalize,
     ])
     count = 0
+    batch_size = 20
     train_loader = DataLoader(root_path='/home/meteo/zihao.chen/data/HBQ/Cloud_357/class_label_1_work_new/train',
-                              batch_size=64, num_workers=4, transforms=transform)
-    # for i, sample in enumerate(train_loader):
-    #     print ('load data %d' % (i))
-    #     # print (type(input))
-    #     input, target = sample
-    #
-    #     s_t = time.time()
-    #     x = []
-    #     for i in range(len(input)):
-    #         x.append(torch.stack(input[i], dim=0))
-    #     new_v = torch.stack(x, dim=0)
-    #
-    #     print (time.time() - s_t)
-    #
-    #     count += len(input)
-    #     print (count)
-    #     print (type(input[0]))
-    #     time.sleep(1)
-    sample = next(train_loader)
+                              batch_size=batch_size, num_workers=8, transforms=transform)
+    epochs = 40
+    for epoch in range(0, epochs):
+        print ('='*20)
+        for i, sample in enumerate(train_loader):
+            print ('load data %d' % (i))
+            # print (type(input))
+            input, target = sample
+            temp_x = [torch.stack(input[i], dim=0) for i in range(len(input))]
+            temp_y = [torch.stack(target[i], dim=0) for i in range(len(target))]
+            new_x = torch.stack(temp_x, dim=0)
+            new_y = torch.stack(temp_y, dim=0)
 
-    input, target = sample
-    print (input[0][0].size())
-    s_t = time.time()
-    x = []
-    for i in range(len(input)):
-        x.append(torch.stack(input[i], dim=0))
-    new_v = torch.stack(x, dim=0)
+            new_x = [new_x[:, i] for i in range(3)]
+            new_y = [new_y[:, i] for i in range(3)]
+            sample_input = torch.cat(new_x, 0)
+            sample_target = torch.cat(new_y, 0)
 
-    sample_anchor = new_v[:, 0]
-    sample_positive = new_v[:, 1]
-    sample_nagetive = new_v[:, 2]
-    sample_input = torch.cat([sample_anchor, sample_positive, sample_nagetive], 0)
-    print (time.time() - s_t)
-    print (sample_input.size())
+            target = sample_target.cuda(async=True)
+            input_var = torch.autograd.Variable(sample_input.cuda())
+            target_var = torch.autograd.Variable(target.cuda())
+            # compute output
+            anchor = input_var[:batch_size]
+            positive = input_var[batch_size:(batch_size * 2)]
+            negative = input_var[-batch_size:]
+            assert anchor.size() == positive.size()
+            assert anchor.size() == negative.size()
+            # s_t = time.time()
+            # x = []
+            # for i in range(len(input)):
+            #     x.append(torch.stack(input[i], dim=0))
+            # new_v = torch.stack(x, dim=0)
+            #
+            # print (time.time() - s_t)
+            #
+            # count += len(input)
+            # print (count)
+            # print (type(input[0]))
+            # time.sleep(1)
+    # sample = next(train_loader)
+
+    # input, target = sample
+    # print (input[0][0].size())
+    # s_t = time.time()
+    # x = []
+    # for i in range(len(input)):
+    #     x.append(torch.stack(input[i], dim=0))
+    # new_v = torch.stack(x, dim=0)
+    #
+    # sample_anchor = new_v[:, 0]
+    # sample_positive = new_v[:, 1]
+    # sample_nagetive = new_v[:, 2]
+    # sample_input = torch.cat([sample_anchor, sample_positive, sample_nagetive], 0)
+    # print (time.time() - s_t)
+    # print (sample_input.size())

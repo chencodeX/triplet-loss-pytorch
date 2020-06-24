@@ -29,7 +29,7 @@ model_names = sorted(name for name in models.__dict__
                      and callable(models.__dict__[name]))
 
 # 存放数据的根目录
-DATA_PATH = '/home/zihao.chen/data'
+DATA_PATH = '/home/meteo/zihao.chen/data'
 
 # 数据集的目录，它内部应该满足pytorch Dataset的标准，形如 data/class1/*.jpg data/class2/*.jpg data/class3/*.jpg
 data_path = os.path.join(DATA_PATH, 'HBQ/Cloud_357/class_label_B4/3_work')
@@ -200,7 +200,7 @@ def main():
                                   transforms=transforms.Compose([
                                       # transforms.Lambda(lambda img:_cloud_crop(img)),
                                       # transforms.RandomResizedCrop(336, scale=(0.8, 1.0)),
-                                      transforms.RandomResizedCrop(336),
+                                      transforms.RandomResizedCrop(224),
                                       # transforms.CenterCrop(336),
                                       transforms.RandomHorizontalFlip(),
                                       # transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1),

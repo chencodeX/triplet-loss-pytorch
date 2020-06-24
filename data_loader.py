@@ -276,11 +276,13 @@ if __name__ == '__main__':
     ])
     count = 0
     batch_size = 50
-    train_loader = DataLoader(root_path='/home/meteo/zihao.chen/data/HBQ/Cloud_357/class_label_B4/3_work/train',
-                              batch_size=batch_size, num_workers=8, transforms=transform)
+
     epochs = 40
     for epoch in range(0, epochs):
+
         print ('=' * 20)
+        train_loader = DataLoader(root_path='/home/meteo/zihao.chen/data/HBQ/Cloud_357/class_label_B4/3_work/train',
+                                  batch_size=batch_size, num_workers=8, transforms=transform)
         for i, sample in enumerate(train_loader):
             try:
                 print ('load data %d' % (i))

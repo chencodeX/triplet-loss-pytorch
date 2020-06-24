@@ -314,6 +314,9 @@ if __name__ == '__main__':
                 print (sample_input.size())
                 print ('sample_target size :')
                 print (sample_target.size())
+                print (anchor.size())
+                print (positive.size())
+                print (negative.size())
             # s_t = time.time()
             # x = []
             # for i in range(len(input)):

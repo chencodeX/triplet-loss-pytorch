@@ -48,7 +48,7 @@ resume = None
 num_classes = 7
 
 # 每批次训练的样本量，也会影响dataloader的缓冲大小
-batch_size = 10
+batch_size = 20
 
 # dataloader 使用的线程数量，之所以没用进程的方式，是因为主要是大多数数据装载的时间主要集中在IO阻塞上，
 # 数据的预处理本身占用的时间其实很快。而且进程间通讯和调度没有线程那么方便。

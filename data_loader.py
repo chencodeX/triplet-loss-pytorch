@@ -303,7 +303,7 @@ if __name__ == '__main__':
                 anchor = input_var[:batch_size]
                 positive = input_var[batch_size:(batch_size * 2)]
                 negative = input_var[-batch_size:]
-                assert anchor.size() == positive.size()
+                assert anchor.size() != positive.size()
                 assert anchor.size() == negative.size()
             except Exception as e:
                 print ('input len :%s' % len(input))

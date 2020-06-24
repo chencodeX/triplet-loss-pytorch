@@ -280,7 +280,7 @@ if __name__ == '__main__':
                               batch_size=batch_size, num_workers=8, transforms=transform)
     epochs = 40
     for epoch in range(0, epochs):
-        print ('='*20)
+        print ('=' * 20)
         for i, sample in enumerate(train_loader):
             try:
                 print ('load data %d' % (i))
@@ -306,12 +306,12 @@ if __name__ == '__main__':
                 assert anchor.size() == positive.size()
                 assert anchor.size() == negative.size()
             except Exception as e:
-                print ('input len :%s'%len(input))
-                print ('target len :%s'%len(target))
-                print ('new_x size :%s'%len(new_x.size()))
-                print ('new_y size :%s'%len(new_y.size()))
-                print ('sample_input size :%s'%len(sample_input.size()))
-                print ('sample_target size :%s'%len(sample_target.size()))
+                print ('input len :%s' % len(input))
+                print ('target len :%s' % len(target))
+                print ('new_x size :%s' % new_x.size())
+                print ('new_y size :%s' % new_y.size())
+                print ('sample_input size :%s' % sample_input.size())
+                print ('sample_target size :%s' % sample_target.size())
             # s_t = time.time()
             # x = []
             # for i in range(len(input)):

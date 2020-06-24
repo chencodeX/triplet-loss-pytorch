@@ -308,8 +308,8 @@ if __name__ == '__main__':
             except Exception as e:
                 print ('input len :%s' % len(input))
                 print ('target len :%s' % len(target))
-                print ('new_x size :%s' % new_x.size())
-                print ('new_y size :%s' % new_y.size())
+                print ('new_x len :%s' % len(new_x))
+                print ('new_y len :%s' % len(new_y))
                 print ('sample_input size :%s' % sample_input.size())
                 print ('sample_target size :%s' % sample_target.size())
             # s_t = time.time()

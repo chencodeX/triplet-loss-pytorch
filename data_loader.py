@@ -282,28 +282,36 @@ if __name__ == '__main__':
     for epoch in range(0, epochs):
         print ('='*20)
         for i, sample in enumerate(train_loader):
-            print ('load data %d' % (i))
-            # print (type(input))
-            input, target = sample
-            temp_x = [torch.stack(input[i], dim=0) for i in range(len(input))]
-            temp_y = [torch.stack(target[i], dim=0) for i in range(len(target))]
-            new_x = torch.stack(temp_x, dim=0)
-            new_y = torch.stack(temp_y, dim=0)
+            try:
+                print ('load data %d' % (i))
+                # print (type(input))
+                input, target = sample
+                temp_x = [torch.stack(input[i], dim=0) for i in range(len(input))]
+                temp_y = [torch.stack(target[i], dim=0) for i in range(len(target))]
+                new_x = torch.stack(temp_x, dim=0)
+                new_y = torch.stack(temp_y, dim=0)
 
-            new_x = [new_x[:, i] for i in range(3)]
-            new_y = [new_y[:, i] for i in range(3)]
-            sample_input = torch.cat(new_x, 0)
-            sample_target = torch.cat(new_y, 0)
+                new_x = [new_x[:, i] for i in range(3)]
+                new_y = [new_y[:, i] for i in range(3)]
+                sample_input = torch.cat(new_x, 0)
+                sample_target = torch.cat(new_y, 0)
 
-            target = sample_target.cuda(async=True)
-            input_var = torch.autograd.Variable(sample_input)
-            target_var = torch.autograd.Variable(target)
-            # compute output
-            anchor = input_var[:batch_size]
-            positive = input_var[batch_size:(batch_size * 2)]
-            negative = input_var[-batch_size:]
-            assert anchor.size() == positive.size()
-            assert anchor.size() == negative.size()
+                target = sample_target.cuda(async=True)
+                input_var = torch.autograd.Variable(sample_input)
+                target_var = torch.autograd.Variable(target)
+                # compute output
+                anchor = input_var[:batch_size]
+                positive = input_var[batch_size:(batch_size * 2)]
+                negative = input_var[-batch_size:]
+                assert anchor.size() == positive.size()
+                assert anchor.size() == negative.size()
+            except Exception as e:
+                print ('input len :%s'%len(input))
+                print ('target len :%s'%len(target))
+                print ('new_x size :%s'%len(new_x.size()))
+                print ('new_y size :%s'%len(new_y.size()))
+                print ('sample_input size :%s'%len(sample_input.size()))
+                print ('sample_target size :%s'%len(sample_target.size()))
             # s_t = time.time()
             # x = []
             # for i in range(len(input)):

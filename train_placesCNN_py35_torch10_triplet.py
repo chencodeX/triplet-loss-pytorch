@@ -168,8 +168,8 @@ def main():
 
     val_loader = torch.utils.data.DataLoader(
         datasets.ImageFolder(valdir, transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
+            transforms.Resize(384),
+            transforms.CenterCrop(334),
             transforms.ToTensor(),
             normalize,
         ])),
@@ -200,7 +200,7 @@ def main():
                                   transforms=transforms.Compose([
                                       # transforms.Lambda(lambda img:_cloud_crop(img)),
                                       # transforms.RandomResizedCrop(336, scale=(0.8, 1.0)),
-                                      transforms.RandomResizedCrop(224),
+                                      transforms.RandomResizedCrop(336),
                                       # transforms.CenterCrop(336),
                                       transforms.RandomHorizontalFlip(),
                                       # transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1),

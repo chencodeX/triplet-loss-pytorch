@@ -32,23 +32,23 @@ model_names = sorted(name for name in models.__dict__
 DATA_PATH = '/home/meteo/zihao.chen/data'
 
 # 数据集的目录，它内部应该满足pytorch Dataset的标准，形如 data/class1/*.jpg data/class2/*.jpg data/class3/*.jpg
-data_path = os.path.join(DATA_PATH, 'HBQ/Cloud_357/class_label_B4/3_work')
+data_path = os.path.join(DATA_PATH, 'allergy/allergy_work')
 
 # 最优迭代的索引，初始为0
 best_prec1 = 0
 
 # 一个特立独行的名字，用来区分每次训练的模型
-arch = 'resnet50_cloud_test_336_lr0001_triplet_0'
+arch = 'resnet50_allergy_336_lr0001_triplet_base'
 
 # 是否使用现有的模型,如果使用的话，注意你的dataloader是否能够正确的投喂数据
 # resume = 'resnet50_cloud_a29_best.pth.tar'
 resume = None
 
 # 模型的分类类别数量
-num_classes = 7
+num_classes = 10
 
 # 每批次训练的样本量，也会影响dataloader的缓冲大小
-batch_size = 20
+batch_size = 10
 
 # dataloader 使用的线程数量，之所以没用进程的方式，是因为主要是大多数数据装载的时间主要集中在IO阻塞上，
 # 数据的预处理本身占用的时间其实很快。而且进程间通讯和调度没有线程那么方便。
@@ -58,7 +58,7 @@ data_loader_workers = 8
 evaluate = False
 
 # 调参的参数
-lr = 0.001
+lr = 0.0001
 momentum = 0.9
 weight_decay = 1e-4
 
